@@ -1,0 +1,182 @@
+#wrapper {
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #0f1b4f;
+    
+    background-image: url("./images/BlueBGWebsite.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    height: 400px; /* must give it height for background to show */
+    
+    font-family: "Cambria Math", serif;
+    font-weight: 400;
+}
+
+li {
+    padding-top: 3%
+}
+
+
+a {
+    font-size: 18px;
+    color: #f38f8c;
+}
+
+h2 {
+    color: #ffffff
+}
+
+p {
+    font-size: 20px
+}
+
+#pageContent {
+    border-radius: 1%;
+    text-align: center;
+    background-image: url("./images/BlueGradientWebsite.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+
+    color: #d6d7ea;
+    
+    padding: 6%;
+    padding-top: 3%;
+    background-color: #c5c8db;
+    font-size: 18px;
+}
+
+#myHeader {
+    height: 70px;
+    background-color: #596fb7;
+    color: #c7cbf9;
+
+    text-align: center;
+    padding-top: 10px;
+    
+    
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: clamp(16px, 4vw, 60px);
+    
+}
+
+#profileImg{
+    display: block;
+    margin: auto;
+    padding: 2px;
+    width:63%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+
+}
+a.button{
+    padding: 6px;
+    border: 1px outset buttonborder;
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #ac4444;
+    text-decoration: none;
+    margin: 4px;
+
+}
+
+
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+#biscuit_warehouse{
+    width: 88%;
+    display: block;
+    margin: auto;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+     border-radius: 20%;
+
+}
+#biscuit_warehouse2{
+    width: 144%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 9.5);
+}
+
+
+#internal_thumb{
+    width: 88%;
+    display: block;
+    margin: auto;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+     border-radius: 20%;
+}
+#internal_screenshot{
+    width: 144%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 9.5);
+}
+
+
+aside{
+    float: right;
+    width:50%;
+    
+    
+}
+
+#buttons{
+    justify-content: center;
+}
+
+
+#profileImg2{
+    display: block;
+    margin: auto;
+    padding: 11px;
+    width:63%;
+    
+}
+
+
+.sideside {
+  display: flex;   /* makes children sit side by side */
+
+}
+
+.left, .right {
+  flex: 1;
+  padding: 3%;
+}
+
+.pageright {
+    /*background-image: url("./images/BlueGradientWebsite.png");*/
+    background-color: #191d44;
+    width: 30%;
+    border-radius: 1%;
+}
+
+
+.pageleft {
+    /*background-image: url("./images/BlueGradientWebsite.png");*/
+    background-color: #242b71;
+    width: 70%;
+     border-radius: 10px;
+}
+
+
+
+#cat {
+    padding-top: 11%;
+    margin: auto;
+    width: 100%;
+}
+

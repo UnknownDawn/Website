@@ -1,0 +1,359 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="styleSept10.css">
+    <meta name="description" content="Justin's Assignment 1 Resume">
+    <link href="https://fonts.googleapis.com/css2?family=Epunda+Slab:wght@400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Blackjack</title>
+</head>
+
+    
+
+    
+    
+<body id="wrapper">
+    
+    
+    
+
+    
+    <img src="./images/JustinWebsite.png" id="profileImg">
+    
+        
+    <div id ="ButtonParent">
+            <div id="Buttons">
+
+            <a href="index.html" class="button">Myself</a>
+            <a href="iHobbies.html" class="button">Hobbies</a>
+            <a href="iGames.html" class="button">Games</a>
+            <a href="iProject2.html" class="button">Javascript</a>
+                
+                
+                
+                
+            </div>
+    </div>
+
+    
+    <div id="pageContent">
+        <h1> </h1>
+        
+
+
+
+        <h2>Project 2</h2>
+
+        
+
+
+  <style>
+    body {
+      background-color: #0b5136;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      color: #ffd700;
+      font-size: 2em;
+    }
+
+    .board {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+      transition: opacity 0.5s;
+    }
+
+    .board.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    .hand {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      perspective: 1000px;
+    }
+
+    .card {
+      width: 102px;
+      height: 155px;
+      border-radius: 9px;
+      border: 2px solid #fff;
+      background-color: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px;
+      font-size: 21px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .card.red {
+      color: red;
+    }
+
+    .card .front, .card .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      backface-visibility: hidden;
+    }
+
+    .card .front {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px;
+      color: inherit;
+    }
+
+    .card .back {
+      margin-top: -2px;
+      background-color: #21276e;
+      border: 2px solid #999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: rotateY(180deg);
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    button {
+      background-color: #ffd700;
+      color: #0b1051;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #ffea75;
+    }
+
+    #result {
+      font-size: 22px;
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 30px;
+    }
+
+    #replay-button {
+      display: none;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+
+
+  <h1>♠ Blackjack ♣</h1>
+
+  <button id="start-button" onclick="startGame()">Start Game</button>
+  <button id="replay-button" onclick="startGame()">Play Again</button>
+
+  <div class="board fade-in" id="game-board">
+    <div>
+      <h2>Dealer</h2>
+      <div id="dealer-hand" class="hand"></div>
+      <p id="dealer-total"></p>
+    </div>
+
+    <div>
+      <h2>You</h2>
+      <div id="player-hand" class="hand"></div>
+      <p id="player-total"></p>
+    </div>
+
+    <div>
+      <button id="hit-button" onclick="hit()">Hit</button>
+      <button id="stand-button" onclick="stand()">Stand</button>
+    </div>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    let deck = [];
+    let player = [];
+    let dealer = [];
+    let gameOver = false;
+    let hiddenCardElement = null;
+
+    function createDeck() {
+      const suits = ['♠', '♥', '♦', '♣'];
+      const values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+      deck = [];
+      for (let suit of suits) {
+        for (let value of values) {
+          deck.push({ value, suit });
+        }
+      }
+    }
+
+    function drawCard() {
+      const index = Math.floor(Math.random() * deck.length);
+      return deck.splice(index, 1)[0];
+    }
+
+    function getValue(hand) {
+      let total = 0;
+      let aces = 0;
+      for (let card of hand) {
+        if (['J','Q','K'].includes(card.value)) total += 10;
+        else if (card.value === 'A') {
+          total += 11;
+          aces++;
+        } else total += parseInt(card.value);
+      }
+      while (total > 21 && aces > 0) {
+        total -= 10;
+        aces--;
+      }
+      return total;
+    }
+
+    function startGame() {
+      document.getElementById("start-button").style.display = "none";
+      document.getElementById("replay-button").style.display = "none";
+      const board = document.getElementById("game-board");
+      board.classList.add("visible");
+      document.getElementById("result").textContent = "";
+
+      createDeck();
+      player = [drawCard(), drawCard()];
+      dealer = [drawCard(), drawCard()];
+      gameOver = false;
+      updateDisplay();
+    }
+
+    function hit() {
+      if (gameOver) return;
+      player.push(drawCard());
+      updateDisplay();
+      if (getValue(player) > 21) {
+        document.getElementById("result").textContent = "💥 You busted! Dealer wins.";
+        gameOver = true;
+        revealDealerCards();
+        showReplayButton();
+      }
+    }
+
+    function stand() {
+      if (gameOver) return;
+      revealDealerCards(() => {
+        while (getValue(dealer) < 17) {
+          dealer.push(drawCard());
+        }
+        const playerTotal = getValue(player);
+        const dealerTotal = getValue(dealer);
+        let result = "";
+        if (dealerTotal > 21 || playerTotal > dealerTotal) result = "🎉 You win!";
+        else if (playerTotal < dealerTotal) result = "😞 Dealer wins!";
+        else result = "🤝 It's a tie!";
+        document.getElementById("result").textContent = result;
+        gameOver = true;
+        updateDisplay(true);
+        showReplayButton();
+      });
+    }
+
+    function updateDisplay(showDealer = false) {
+      const playerHandDiv = document.getElementById("player-hand");
+      const dealerHandDiv = document.getElementById("dealer-hand");
+      playerHandDiv.innerHTML = "";
+      dealerHandDiv.innerHTML = "";
+
+      player.forEach(card => playerHandDiv.appendChild(createCardElement(card)));
+
+      if (showDealer) {
+        dealer.forEach(card => dealerHandDiv.appendChild(createCardElement(card)));
+      } else {
+        dealerHandDiv.appendChild(createCardElement(dealer[0]));
+        hiddenCardElement = createCardElement(dealer[1], true);
+        dealerHandDiv.appendChild(hiddenCardElement);
+      }
+
+      document.getElementById("player-total").textContent = "Your total: " + getValue(player);
+      document.getElementById("dealer-total").textContent = showDealer
+        ? "Dealer total: " + getValue(dealer)
+        : "Dealer total: ?";
+    }
+
+    function createCardElement(card, hidden = false) {
+      const div = document.createElement("div");
+      div.className = "card";
+      if (card.suit === '♥' || card.suit === '♦') div.classList.add("red");
+
+      const front = document.createElement("div");
+      front.className = "front";
+      front.innerHTML = `
+        <div>${card.value}${card.suit}</div>
+        <div style="font-size: 26px;">${card.suit}</div>
+        <div style="transform: rotate(180deg);">${card.value}${card.suit}</div>
+      `;
+
+      const back = document.createElement("div");
+      back.className = "back";
+
+      div.appendChild(front);
+      div.appendChild(back);
+
+      if (hidden) div.classList.add("flipped");
+
+      return div;
+    }
+
+    function revealDealerCards(callback) {
+      if (!hiddenCardElement) return;
+      setTimeout(() => {
+        hiddenCardElement.classList.remove("flipped");
+        setTimeout(() => {
+          updateDisplay(true);
+          if (callback) callback();
+        }, 800);
+      }, 400);
+    }
+
+    function showReplayButton() {
+      document.getElementById("replay-button").style.display = "inline-block";
+    }
+  </script>
+    
+        
+  </div>
+</body>
+
+
+
+</html>
